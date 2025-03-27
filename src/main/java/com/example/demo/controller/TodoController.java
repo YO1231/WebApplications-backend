@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.TodoEntity;
 import com.example.demo.dto.ResponseDTO;
-import com.example.demo.dto.ToDoDTO;
+import com.example.demo.dto.TodoDTO;
 import com.example.demo.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,23 +30,23 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTodo(@RequestBody ToDoDTO dto) {
+    public ResponseEntity<?> createTodo(@RequestBody TodoDTO dto) {
         try {
             String temporaryUserId = "temporary-user";
 
-            TodoEntity entity = ToDoDTO.toEntity(dto);
+            TodoEntity entity = TodoDTO.toEntity(dto);
             entity.setId(null);
             entity.setUserId(temporaryUserId);
 
             List<TodoEntity> entities = service.create(entity);
 
-            List<ToDoDTO> dtos = entities.stream().map(ToDoDTO::new).collect(Collectors.toList());
+            List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
 
-            ResponseDTO<ToDoDTO> response = ResponseDTO.<ToDoDTO>builder().data(dtos).build();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             String error = e.getMessage();
-            ResponseDTO<ToDoDTO> response = ResponseDTO.<ToDoDTO>builder().error(error).build();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().error(error).build();
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -57,44 +57,44 @@ public class TodoController {
 
         List<TodoEntity> entities = service.retrieve(temporaryUserId);
 
-        List<ToDoDTO> dtos = entities.stream().map(ToDoDTO::new).collect(Collectors.toList());
-        ResponseDTO<ToDoDTO> response = ResponseDTO.<ToDoDTO>builder().data(dtos).build();
+        List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
+        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
 
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping
-    public ResponseEntity<?> updateTodo(@RequestBody ToDoDTO dto) {
+    public ResponseEntity<?> updateTodo(@RequestBody TodoDTO dto) {
         String temporaryUserId = "temporary-user";
-        TodoEntity entity = ToDoDTO.toEntity(dto);
+        TodoEntity entity = TodoDTO.toEntity(dto);
 
         entity.setUserId(temporaryUserId);
 
         List<TodoEntity> entities = service.update(entity);
 
-        List<ToDoDTO> dtos = entities.stream().map(ToDoDTO::new).collect(Collectors.toList());
+        List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
 
-        ResponseDTO<ToDoDTO> response = ResponseDTO.<ToDoDTO>builder().data(dtos).build();
+        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
 
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteTodo(@RequestBody ToDoDTO dto) {
+    public ResponseEntity<?> deleteTodo(@RequestBody TodoDTO dto) {
         try {
             String temporaryUserId = "temporary-user";
-            TodoEntity entity = ToDoDTO.toEntity(dto);
+            TodoEntity entity = TodoDTO.toEntity(dto);
             entity.setUserId(temporaryUserId);
 
             List<TodoEntity> entities = service.delete(entity);
 
-            List<ToDoDTO> dtos = entities.stream().map(ToDoDTO::new).collect(Collectors.toList());
+            List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
 
-            ResponseDTO<ToDoDTO> response = ResponseDTO.<ToDoDTO>builder().data(dtos).build();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             String error = e.getMessage();
-            ResponseDTO<ToDoDTO> response = ResponseDTO.<ToDoDTO>builder().error(error).build();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().error(error).build();
             return ResponseEntity.badRequest().body(response);
         }
     }
