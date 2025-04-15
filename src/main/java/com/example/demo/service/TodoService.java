@@ -63,7 +63,6 @@ public class TodoService {
         original.ifPresent(todo -> {
             todo.setTitle(entity.getTitle());
             todo.setDone(entity.isDone());
-
             repository.save(todo);
         });
 
